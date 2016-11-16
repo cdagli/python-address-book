@@ -1,0 +1,324 @@
+{
+  "definitions": {
+    "GeneralError": {
+      "properties": {
+        "code": {
+          "default": "serverError", 
+          "type": "string"
+        }, 
+        "message": {
+          "default": "Server Error", 
+          "description": "Error message", 
+          "type": "string"
+        }
+      }
+    }, 
+    "GetGroupSuccess": {
+      "properties": {
+        "code": {
+          "default": "success", 
+          "description": "Short response code", 
+          "type": "string"
+        }, 
+        "persons": {
+          "schema": {
+            "items": {
+              "$ref": "#/definitions/Person"
+            }, 
+            "type": "array"
+          }
+        }
+      }
+    }, 
+    "Group": {
+      "properties": {
+        "name": {
+          "default": "group0", 
+          "description": "name of the group", 
+          "type": "string"
+        }
+      }, 
+      "required": [
+        "name"
+      ]
+    }, 
+    "GroupAddSuccess": {
+      "properties": {
+        "code": {
+          "default": "success", 
+          "description": "Short response code", 
+          "type": "string"
+        }, 
+        "group": {
+          "$ref": "#/definitions/GroupExtended"
+        }
+      }
+    }, 
+    "GroupExtended": {
+      "properties": {
+        "id": {
+          "type": "number"
+        }, 
+        "name": {
+          "type": "string"
+        }
+      }
+    }, 
+    "Person": {
+      "properties": {
+        "addresses": {
+          "default": "address1,address2,address3", 
+          "description": "Person's addresses as string separated with commas", 
+          "type": "string"
+        }, 
+        "emails": {
+          "default": "email1@test.com,email2@test.com,email3@test.com", 
+          "description": "Person's emails as string separated with commas", 
+          "type": "string"
+        }, 
+        "first_name": {
+          "default": "John", 
+          "description": "First name of the person", 
+          "type": "string"
+        }, 
+        "groups": {
+          "default": "group0,group1,group2", 
+          "description": "Persons groups as string separated with commas", 
+          "type": "string"
+        }, 
+        "last_name": {
+          "default": "Doe", 
+          "description": "Last name of the person", 
+          "type": "string"
+        }, 
+        "phones": {
+          "default": "112233,334455,667788", 
+          "description": "Person's phone numbers as string separated with commas", 
+          "type": "string"
+        }
+      }, 
+      "required": [
+        "first_name", 
+        "last_name", 
+        "emails", 
+        "phones", 
+        "addresses", 
+        "groups"
+      ]
+    }, 
+    "PersonAddSuccess": {
+      "properties": {
+        "code": {
+          "default": "success", 
+          "description": "Short response code", 
+          "type": "string"
+        }, 
+        "person": {
+          "$ref": "#/definitions/Person"
+        }
+      }
+    }, 
+    "UserGroups": {
+      "properties": {
+        "code": {
+          "default": "success", 
+          "description": "Short response code", 
+          "type": "string"
+        }, 
+        "groups": {
+          "description": "Persons groups as string separated with commas", 
+          "type": "string"
+        }
+      }
+    }
+  }, 
+  "info": {
+    "title": "Python Address Book API", 
+    "version": "1.0"
+  }, 
+  "paths": {
+    "/api/v1.0/groups": {
+      "post": {
+        "description": "", 
+        "parameters": [
+          {
+            "in": "body", 
+            "name": "body", 
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "description": "Group created successfully", 
+            "schema": {
+              "$ref": "#/definitions/GroupAddSuccess"
+            }
+          }, 
+          "500": {
+            "description": "Server error", 
+            "schema": {
+              "$ref": "#/definitions/GeneralError"
+            }
+          }
+        }, 
+        "summary": "Create group endpoint"
+      }
+    }, 
+    "/api/v1.0/groups/{name}": {
+      "get": {
+        "description": "", 
+        "parameters": [
+          {
+            "description": "Exact name of the group", 
+            "in": "path", 
+            "name": "name", 
+            "required": true, 
+            "schema": {
+              "type": "string"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "description": "List of users belongs to group", 
+            "schema": {
+              "$ref": "#/definitions/GetGroupSuccess"
+            }
+          }, 
+          "500": {
+            "description": "Server error", 
+            "schema": {
+              "$ref": "#/definitions/GeneralError"
+            }
+          }
+        }, 
+        "summary": "Get group's persons by group name"
+      }
+    }, 
+    "/api/v1.0/persons": {
+      "post": {
+        "description": "", 
+        "parameters": [
+          {
+            "in": "body", 
+            "name": "body", 
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "description": "Person created successfully", 
+            "schema": {
+              "$ref": "#/definitions/PersonAddSuccess"
+            }
+          }, 
+          "500": {
+            "description": "Server error", 
+            "schema": {
+              "$ref": "#/definitions/GeneralError"
+            }
+          }
+        }, 
+        "summary": "Create person endpoint"
+      }
+    }, 
+    "/api/v1.0/persons/email/{keyword}": {
+      "get": {
+        "description": "", 
+        "parameters": [
+          {
+            "description": "prefix or full email", 
+            "in": "path", 
+            "name": "keyword", 
+            "required": true, 
+            "schema": {
+              "type": "string"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "description": "Record for the person with the email provided", 
+            "schema": {
+              "$ref": "#/definitions/PersonAddSuccess"
+            }
+          }, 
+          "500": {
+            "description": "Server error", 
+            "schema": {
+              "$ref": "#/definitions/GeneralError"
+            }
+          }
+        }, 
+        "summary": "Returns the person with the email provided"
+      }
+    }, 
+    "/api/v1.0/persons/name/{keyword}": {
+      "get": {
+        "description": "", 
+        "parameters": [
+          {
+            "description": "first name, last name or both", 
+            "in": "path", 
+            "name": "keyword", 
+            "required": true, 
+            "schema": {
+              "type": "string"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "description": "Record for the person with the first name, last name searched", 
+            "schema": {
+              "$ref": "#/definitions/PersonAddSuccess"
+            }
+          }, 
+          "500": {
+            "description": "Server error", 
+            "schema": {
+              "$ref": "#/definitions/GeneralError"
+            }
+          }
+        }, 
+        "summary": "Returns a person by his/her first name or surname or both"
+      }
+    }, 
+    "/api/v1.0/persons/{id}/groups": {
+      "get": {
+        "description": "", 
+        "parameters": [
+          {
+            "description": "ID of the person", 
+            "in": "path", 
+            "name": "id", 
+            "required": true, 
+            "schema": {
+              "type": "number"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "description": "List of the groups that person belongs to", 
+            "schema": {
+              "$ref": "#/definitions/UserGroups"
+            }
+          }, 
+          "500": {
+            "description": "Server error", 
+            "schema": {
+              "$ref": "#/definitions/GeneralError"
+            }
+          }
+        }, 
+        "summary": "Returns groups of a person"
+      }
+    }
+  }, 
+  "swagger": "2.0"
+}

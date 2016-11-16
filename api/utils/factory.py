@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import logging
 import sys
@@ -8,7 +9,7 @@ from flask_swagger import swagger
 from api.utils.database import db
 from api.utils.responses import response_with
 import api.utils.responses as resp
-from api.routes.routes_general import route_path_general
+from api.routes.routes_general import route_general
 
 
 def create_app(config):
@@ -16,13 +17,9 @@ def create_app(config):
 
     app.config.from_object(config)
 
-    app.register_blueprint(route_path_general, url_prefix='/api')
+    app.register_blueprint(route_general, url_prefix='/api')
 
     # START GLOBAL HTTP CONFIGURATIONS
-    @app.after_request
-    def add_header(response):
-        return response
-
     @app.errorhandler(400)
     def bad_request(e):
         logging.error(e)
@@ -44,7 +41,7 @@ def create_app(config):
     def spec():
         swag = swagger(app, prefix='/api/v1.0')
         swag['info']['version'] = "1.0"
-        swag['info']['title'] = "Flask Starter API"
+        swag['info']['title'] = "Python Address Book API"
         return jsonify(swag)
 
     db.init_app(app)

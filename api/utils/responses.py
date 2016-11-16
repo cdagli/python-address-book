@@ -57,7 +57,7 @@ SUCCESS_200 = {
 }
 
 
-def response_with(response, value=None, message=None, error=None, headers={}, pagination=None):
+def response_with(response, value=None, message=None, error=None):
     result = {}
     if value is not None:
         result.update(value)
@@ -70,10 +70,4 @@ def response_with(response, value=None, message=None, error=None, headers={}, pa
     if error is not None:
         result.update({'errors': error})
 
-    if pagination is not None:
-        result.update({'pagination': pagination})
-
-    headers.update({'Access-Control-Allow-Origin': '*'})
-    headers.update({'server': 'Flask Starter API'})
-
-    return make_response(jsonify(result), response['http_code'], headers)
+    return make_response(jsonify(result), response['http_code'])
