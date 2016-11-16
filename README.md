@@ -1,5 +1,7 @@
 # python-address-book
 
+[![Build Status](https://travis-ci.org/cdagli/python-address-book.svg?branch=master)](https://travis-ci.org/cdagli/python-address-book)
+
 ### Install
 ```
 git clone https://github.com/cdagli/python-address-book
