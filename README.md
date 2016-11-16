@@ -27,6 +27,10 @@ You can use the swagger.json to visualize the API documentation or a live swagge
 
 ![Swagger Screenshot](https://github.com/cdagli/python-address-book/blob/master/swagger.png)
 
+### Notes 
+
+Application uses the SQLite in memory database currently. If you'd like to change that please edit DevelopmentConfig class in the /api/utils/config.py
+
 ### Design-only question
 Since SQLAlchemy is used on this project (or any other SQL would work, too) a substring could be searched like below; 
 
