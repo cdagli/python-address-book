@@ -27,6 +27,13 @@ You can use the swagger.json to visualize the API documentation or a live swagge
 
 ![Swagger Screenshot](https://github.com/cdagli/python-address-book/blob/master/swagger.png)
 
+### Design-only question
+Since SQLAlchemy is used on this project (or any other SQL would work, too) a substring could be searched like below; 
+
+```
+db.table.column.like('%comp%')
+```
+
 ### Todo
     1. Better exception handling 
     2. Field validations
